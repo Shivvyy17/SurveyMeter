@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import SurveyForm from './SurveyForm';
 import SurveyResults from './SurveyResults';
 import { loadSurveys, saveSurveys } from '../utils/storage';
-import '../app.css';
+import '../App.css';
+
 
 export default function AdminPanel({ onSelectSurvey }) {
   const [surveys, setSurveys] = useState([]);
