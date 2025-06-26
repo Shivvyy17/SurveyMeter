@@ -1,12 +1,45 @@
-# React + Vite
+# 📊 SurveyMeter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A lightweight React + Vite web app to create and respond to MCQ-based surveys with live results in chart form.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- ✅ **Admin Mode** – Create surveys with multiple questions and options
+- ✅ **Participant Mode** – Join surveys using a unique code or link
+- ✅ **Live Result Visualization** – Bar charts per question using Recharts
+- ✅ **Mode Switch Button** – Instantly toggle between Admin ↔ Participant
+- ✅ **Local Storage Based** – No backend required
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🧠 Tech Stack
+
+- React + Vite
+- React Router
+- Recharts (for graphs)
+- Custom CSS
+- localStorage
+
+---
+
+## 🛠️ Getting Started
+
+### 1. Install dependencies
+
+```bash
+npm install
+
+
+---
+
+### 📌 After You Paste This:
+1. Save the file in VS Code (`Ctrl + S`)
+2. Open your terminal in the same folder
+3. Run:
+
+```bash
+git add README.md
+git commit -m "Clean and update project README"
+git push
