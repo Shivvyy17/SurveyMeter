@@ -8,7 +8,7 @@ import ParticipantPanel from './components/ParticipantPanel.jsx';
 import ManualParticipantEntry from './components/ManualParticipantEntry.jsx';
 import Layout from './components/Layout.jsx';
 import './index.css';
-import './app.css';
+import './App.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
