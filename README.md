@@ -34,12 +34,3 @@ npm install
 
 ---
 
-### 📌 After You Paste This:
-1. Save the file in VS Code (`Ctrl + S`)
-2. Open your terminal in the same folder
-3. Run:
-
-```bash
-git add README.md
-git commit -m "Clean and update project README"
-git push
