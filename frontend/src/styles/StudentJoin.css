@@ -1,0 +1,158 @@
+.student-join-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.student-join-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 450px;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.student-join-card h1 {
+  font-size: 2rem;
+  color: #667eea;
+  margin: 0 0 0.5rem;
+  text-align: center;
+}
+
+.student-join-card h2 {
+  font-size: 1.5rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+.join-form-wrapper {
+  margin-bottom: 1.5rem;
+}
+
+.student-join-card .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.student-join-card .form-group label {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-size: 14px;
+}
+
+.student-join-card .form-group input {
+  width: 100%;
+  padding: 0.85rem;
+  border: 2px solid #eee;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-align: center;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.student-join-card .form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.code-hint {
+  font-size: 13px;
+  color: #999;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.join-button {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.join-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.divider {
+  text-align: center;
+  color: #999;
+  font-weight: 600;
+  margin: 1.5rem 0;
+  font-size: 14px;
+}
+
+.qr-button {
+  width: 100%;
+  padding: 1rem;
+  background: #f5f5f5;
+  color: #667eea;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.qr-button:hover {
+  background: #667eea;
+  color: white;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border: 1px solid #f5c6cb;
+  font-size: 14px;
+  text-align: center;
+}
+
+.info-box {
+  background: #e8f4f8;
+  border-left: 4px solid #0288d1;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.info-box p {
+  margin: 0;
+  color: #0288d1;
+  font-size: 14px;
+  font-weight: 500;
+}
