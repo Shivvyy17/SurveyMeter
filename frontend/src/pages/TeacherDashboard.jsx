@@ -1,6 +1,7 @@
-// src/pages/TeacherDashboard.jsx
+// src/pages/TeacherDashboard.jsx - Enhanced with QR Code Previews
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { QRCodeSVG } from 'qrcode.react';
 import { surveyAPI } from '../utils/apiClient';
 import '../styles/Dashboard.css';
 
@@ -9,6 +10,8 @@ export default function TeacherDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [selectedSurvey, setSelectedSurvey] = useState(null);
+  const [showQRModal, setShowQRModal] = useState(false);
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user') || '{}');
 
@@ -45,6 +48,82 @@ export default function TeacherDashboard() {
         setError('Failed to delete survey');
       }
     }
+  };
+
+  const handleCopyCode = (code) => {
+    navigator.clipboard.writeText(code);
+    // Visual feedback
+    const btn = event.target;
+    const originalText = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    btn.style.background = '#10b981';
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.style.background = '';
+    }, 2000);
+  };
+
+  const handleShowQR = (survey) => {
+    setSelectedSurvey(survey);
+    setShowQRModal(true);
+  };
+
+  const handleDownloadQR = (survey) => {
+    // Create a temporary container for the QR code
+    const tempDiv = document.createElement('div');
+    tempDiv.style.position = 'absolute';
+    tempDiv.style.left = '-9999px';
+    document.body.appendChild(tempDiv);
+
+    // Create QR code SVG
+    const qrContainer = document.createElement('div');
+    tempDiv.appendChild(qrContainer);
+    
+    const surveyUrl = `${window.location.origin}/student/survey/${survey.code}`;
+    
+    // We'll use a canvas approach for download
+    const canvas = document.createElement('canvas');
+    const size = 400;
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    
+    // Draw white background
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, size, size);
+    
+    // Create temporary QR SVG
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', size);
+    svg.setAttribute('height', size);
+    svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
+    
+    // Simple QR generation notice
+    const img = new Image();
+    const svgString = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">
+        <rect width="${size}" height="${size}" fill="white"/>
+        <text x="50%" y="50%" text-anchor="middle" font-size="24" fill="black">
+          Survey Code: ${survey.code}
+        </text>
+      </svg>
+    `;
+    
+    const blob = new Blob([svgString], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(blob);
+    
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob((blob) => {
+        const link = document.createElement('a');
+        link.download = `survey-${survey.code}-qr.png`;
+        link.href = URL.createObjectURL(blob);
+        link.click();
+        document.body.removeChild(tempDiv);
+      });
+    };
+    
+    img.src = url;
   };
 
   return (
@@ -96,7 +175,7 @@ export default function TeacherDashboard() {
 
         {/* Surveys List */}
         <div className="surveys-section">
-          <h2>Your Surveys</h2>
+          <h2>Your Surveys ({surveys.length})</h2>
 
           {loading ? (
             <div className="loading">Loading surveys...</div>
@@ -107,33 +186,71 @@ export default function TeacherDashboard() {
           ) : (
             <div className="surveys-grid">
               {surveys.map(survey => (
-                <div key={survey._id} className="survey-card">
+                <div key={survey._id} className="survey-card enhanced">
                   <div className="survey-card-header">
                     <h3>{survey.title}</h3>
-                    <span className="survey-code">Code: {survey.code}</span>
+                    <span className="survey-code-badge">#{survey.code}</span>
                   </div>
 
                   <div className="survey-card-body">
-                    <p className="survey-questions">
-                      📋 {survey.questions.length} questions
-                    </p>
-                    <p className="survey-responses">
-                      👥 {survey.responses?.length || 0} responses
-                    </p>
+                    {/* QR Code Preview */}
+                    <div className="qr-preview-container">
+                      <div 
+                        className="qr-preview"
+                        onClick={() => handleShowQR(survey)}
+                        title="Click to view larger"
+                      >
+                        <QRCodeSVG
+                          value={`${window.location.origin}/student/survey/${survey.code}`}
+                          size={100}
+                          level="M"
+                          includeMargin={false}
+                        />
+                      </div>
+                      <button
+                        className="qr-preview-btn"
+                        onClick={() => handleShowQR(survey)}
+                        title="View/Download QR"
+                      >
+                        🔍 View QR
+                      </button>
+                    </div>
+
+                    {/* Survey Stats */}
+                    <div className="survey-stats">
+                      <div className="stat-item">
+                        <span className="stat-icon">📋</span>
+                        <span className="stat-value">{survey.questions.length}</span>
+                        <span className="stat-label">Questions</span>
+                      </div>
+                      <div className="stat-item">
+                        <span className="stat-icon">👥</span>
+                        <span className="stat-value">{survey.responses?.length || 0}</span>
+                        <span className="stat-label">Responses</span>
+                      </div>
+                    </div>
+
                     <p className="survey-date">
                       📅 {new Date(survey.createdAt).toLocaleDateString()}
                     </p>
 
-                    {/* ← Add this: Copy code to clipboard */}
-                    <button
-                      className="btn-copy-code"
-                      onClick={() => {
-                        navigator.clipboard.writeText(survey.code);
-                        alert('Code copied: ' + survey.code);
-                      }}
-                    >
-                      📋 Copy Code
-                    </button>
+                    {/* Quick Actions */}
+                    <div className="quick-actions">
+                      <button
+                        className="quick-action-btn copy"
+                        onClick={(e) => handleCopyCode(survey.code)}
+                        title="Copy survey code"
+                      >
+                        📋 Copy Code
+                      </button>
+                      <button
+                        className="quick-action-btn share"
+                        onClick={() => navigate(`/teacher/survey/${survey._id}`)}
+                        title="Share survey"
+                      >
+                        🔗 Share
+                      </button>
+                    </div>
                   </div>
 
                   <div className="survey-card-actions">
@@ -143,13 +260,6 @@ export default function TeacherDashboard() {
                       title="View Results"
                     >
                       📊 Results
-                    </button>
-                    <button
-                      className="btn-icon btn-share"
-                      onClick={() => navigate(`/teacher/survey/${survey._id}`)}
-                      title="Share Survey"
-                    >
-                      🔗 Share
                     </button>
                     <button
                       className="btn-icon btn-delete"
@@ -165,11 +275,93 @@ export default function TeacherDashboard() {
           )}
         </div>
       </div>
+
+      {/* QR Modal */}
+      {showQRModal && selectedSurvey && (
+        <QRModal
+          survey={selectedSurvey}
+          onClose={() => {
+            setShowQRModal(false);
+            setSelectedSurvey(null);
+          }}
+        />
+      )}
     </div>
   );
 }
 
-// Create Survey Form Component
+// QR Code Modal Component
+function QRModal({ survey, onClose }) {
+  const navigate = useNavigate();
+  const surveyUrl = `${window.location.origin}/student/survey/${survey.code}`;
+
+  const downloadQR = () => {
+    const svg = document.querySelector('.qr-modal-content svg');
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.fillStyle = 'white';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+      
+      canvas.toBlob((blob) => {
+        const link = document.createElement('a');
+        link.download = `survey-${survey.code}-qr.png`;
+        link.href = URL.createObjectURL(blob);
+        link.click();
+      });
+    };
+    
+    img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+  };
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="qr-modal" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose}>✕</button>
+        
+        <div className="qr-modal-content">
+          <h3>{survey.title}</h3>
+          <div className="modal-code-display">
+            Survey Code: <strong>{survey.code}</strong>
+          </div>
+          
+          <div className="qr-modal-display">
+            <QRCodeSVG
+              value={surveyUrl}
+              size={300}
+              level="H"
+              includeMargin={true}
+            />
+          </div>
+          
+          <p className="qr-modal-instruction">
+            Students can scan this QR code with their phone camera
+          </p>
+          
+          <div className="qr-modal-actions">
+            <button className="modal-btn primary" onClick={downloadQR}>
+              💾 Download QR Code
+            </button>
+            <button 
+              className="modal-btn secondary"
+              onClick={() => navigate(`/teacher/survey/${survey._id}`)}
+            >
+              🔗 View Share Page
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Create Survey Form Component (unchanged from original)
 function CreateSurveyForm({ onSuccess }) {
   const [title, setTitle] = useState('');
   const [questions, setQuestions] = useState([{ questionText: '', options: ['', ''] }]);
@@ -214,7 +406,6 @@ function CreateSurveyForm({ onSuccess }) {
     e.preventDefault();
     setError('');
 
-    // Validation
     if (!title.trim()) {
       setError('Survey title is required');
       return;

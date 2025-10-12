@@ -11,6 +11,8 @@ import SurveyResultsPage from './pages/SurveyResultsPage.jsx';
 import StudentJoinPage from './pages/StudentJoinPage.jsx';
 import StudentSurveyPage from './pages/StudentSurveyPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import SurveySharePage from './pages/SurveySharePage.jsx';
+import QRScannerPage from './pages/QRScannerPage.jsx';
 import './index.css';
 import './styles/Auth.css';
 import './styles/Home.css';
@@ -29,6 +31,17 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/student/join" element={<StudentJoinPage />} />
         <Route path="/student/survey/:surveyCode" element={<StudentSurveyPage />} />
+        <Route path="/student/qr-scanner" element={<QRScannerPage />} />
+
+        {/* Survey Sharing */}
+        <Route
+          path="/teacher/survey/:surveyId"
+          element={
+            <ProtectedRoute requiredRole="teacher">
+              <SurveySharePage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Protected Routes - Teacher */}
         <Route
