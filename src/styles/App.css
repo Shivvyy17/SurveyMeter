@@ -4,7 +4,8 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   background: #f3f2fa;
@@ -12,7 +13,9 @@ body, html {
 }
 
 /* PAGE WRAPPER */
-.app-container, .manual-entry-form, .container {
+.app-container,
+.manual-entry-form,
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,6 +23,12 @@ body, html {
   padding: 2rem;
   max-width: 600px;
   margin: 0 auto;
+}
+
+.mode-button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
 }
 
 /* HEADINGS */
@@ -38,7 +47,10 @@ h1 {
 }
 
 /* MODE BUTTONS */
-.mode-button, .survey-select-button, .add-option, .next-btn {
+.mode-button,
+.survey-select-button,
+.add-option,
+.next-btn {
   padding: 10px 18px;
   border: none;
   border-radius: 8px;
@@ -249,4 +261,3 @@ input[type="text"] {
 .top-right-toggle:hover {
   background-color: #4b2991;
 }
-

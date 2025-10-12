@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import SurveyForm from './SurveyForm';
-import SurveyResults from './SurveyResults';
+import SurveyForm from '../components/SurveyForm';
+import SurveyResults from '../components/SurveyResults';
 import { loadSurveys, saveSurveys } from '../utils/storage';
-import '../App.css';
-
+import '../styles/App.css';
 
 export default function AdminPanel({ onSelectSurvey }) {
   const [surveys, setSurveys] = useState([]);
@@ -35,16 +34,16 @@ export default function AdminPanel({ onSelectSurvey }) {
       <div className="section-title">Saved Surveys</div>
       <ul style={{ listStyle: 'none', padding: 0 }}>
         {surveys.map((survey) => (
-         <li key={survey.id} className="saved-survey-card">
-           <div className="survey-info">
-            <h4>{survey.title || `Survey ${survey.id}`}</h4>
-            <p>Survey Code: <code>{survey.id}</code></p>
-           </div>
-           <div className="survey-actions">
-             <button onClick={() => handleSelectSurvey(survey.id)} className="result-btn">
-               View Results
+          <li key={survey.id} className="saved-survey-card">
+            <div className="survey-info">
+              <h4>{survey.title || `Survey ${survey.id}`}</h4>
+              <p>Survey Code: <code>{survey.id}</code></p>
+            </div>
+            <div className="survey-actions">
+              <button onClick={() => handleSelectSurvey(survey.id)} className="result-btn">
+                View Results
               </button>
-           </div>
+            </div>
           </li>
 
         ))}

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import '../App.css';
-
+import '../styles/App.css';
 
 function createEmptyQuestion() {
   return {
@@ -25,9 +24,9 @@ export default function SurveyForm({ onSave }) {
       qs.map((q) =>
         q.id === qid
           ? {
-              ...q,
-              options: q.options.map((opt, i) => (i === idx ? value : opt)),
-            }
+            ...q,
+            options: q.options.map((opt, i) => (i === idx ? value : opt)),
+          }
           : q
       )
     );

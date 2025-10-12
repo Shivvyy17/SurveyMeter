@@ -1,14 +1,13 @@
-// main.jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import App from './App.jsx';
-import AdminPanel from './components/AdminPanel.jsx';
-import ParticipantPanel from './components/ParticipantPanel.jsx';
+import AdminPanel from './pages/AdminPanel.jsx';
+import ParticipantPanel from './pages/ParticipantPanel.jsx';
 import ManualParticipantEntry from './components/ManualParticipantEntry.jsx';
 import Layout from './components/Layout.jsx';
-import './index.css';
-import './App.css';
+import './styles/index.css';
+import './styles/App.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
