@@ -49,20 +49,6 @@ export default function HomePage() {
           🎯 Take a Survey
         </button>
 
-        <div className="home-features">
-          <div className="feature">
-            <span className="feature-icon">✅</span>
-            <p>Teachers create surveys with custom questions</p>
-          </div>
-          <div className="feature">
-            <span className="feature-icon">📱</span>
-            <p>Students join with survey code or QR scan</p>
-          </div>
-          <div className="feature">
-            <span className="feature-icon">📈</span>
-            <p>View live results with beautiful charts</p>
-          </div>
-        </div>
       </div>
     </div>
   );

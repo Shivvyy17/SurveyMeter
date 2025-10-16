@@ -517,7 +517,7 @@ function CreateSurveyForm({ onSuccess }) {
       <button
         type="button"
         onClick={handleAddQuestion}
-        className="btn btn-secondary"
+        className="btn btn-primary"
       >
         + Add Question
       </button>
